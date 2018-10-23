@@ -29,6 +29,9 @@
                 JOIN artists ON albums.artistid = artists.artistid
                 WHERE artists.name = 'AC/DC';
 
+          select * from albums join artists on artists.artistid = albums.artistid and artists.name = 'AC/DC';
+
+
                 For Those About To Rock We Salute You
                 Let There Be Rock
 
@@ -36,20 +39,56 @@
         là, tous les titres de ces albums:
 
 
-                        SELECT distinct tracks.name  FROM tracks, albums
-                               JOIN artists ON albums.artistid = artists.artistid
-                             WHERE artists.name = 'AC/DC';
 
 
-                                                     SELECT distinct tracks.name  FROM tracks, albums
-                                                            JOIN albums ON albums.albumid = tracks.albumid
-                                                          WHERE artists.artistid = '1';
-
-
-
-                        SELECT tracks.name  FROM tracks
+                        SELECT DISTINCT tracks.name  FROM tracks
                               JOIN artists ON albums.artistid = artists.artistid
+                              JOIN invoice_items  ON invoice_items.trackid = tracks.trackid
+                              JOIN albums  ON albums.albumid = tracks.albumid
                               WHERE artists.name = 'AC/DC';
+
+                              For Those About To Rock (We Salute You)
+                              Put The Finger On You
+                              Inject The Venom
+                              Snowballed
+                              Evil Walks
+                              Breaking The Rules
+                              Night Of The Long Knives
+                              Spellbound
+                              Go Down
+                              Dog Eat Dog
+                              Problem Child
+                              Overdose
+                              Hell Ain't A Bad Place To Be
+
+
+
+
+
+                              SELECT tracks.name  FROM tracks
+                                    JOIN albums ON albums.albumid = tracks.albumid
+                                    join artists on artists.artistid = albums.artistid and artists.name = 'AC/DC';
+
+
+                                    For Those About To Rock (We Salute You)
+                                    Put The Finger On You
+                                    Let's Get It Up
+                                    Inject The Venom
+                                    Snowballed
+                                    Evil Walks
+                                    C.O.D.
+                                    Breaking The Rules
+                                    Night Of The Long Knives
+                                    Spellbound
+                                    Go Down
+                                    Dog Eat Dog
+                                    Let There Be Rock
+                                    Bad Boy Boogie
+                                    Problem Child
+                                    Overdose
+                                    Hell Ain't A Bad Place To Be
+                                    Whole Lotta Rosie
+
 
 
 
@@ -76,27 +115,28 @@
 
     Quel est le prix de cet album ainsi que sa durée totale ?
 
-        SELECT unitprice, milliseconds   FROM invoice_items
-                JOIN invoice_items  ON invoice_items.trackid = tracks.trackid,
-                JOIN albums  ON albums.albumid = tracks.albumid
-                WHERE albums.title ='Let There Be Rock';
+              SELECT  sum(tracks.UnitPrice), sum(tracks.milliseconds)   FROM tracks
+                               JOIN invoice_items  ON tracks.trackid = invoice_items.TrackId
+                               join albums on tracks.albumid = albums.albumid
+                               WHERE albums.title ='Let There Be Rock';
 
-                SELECT  tracks.UnitPrice, tracks.milliseconds   FROM tracks
-                        JOIN invoice_items  ON tracks.trackid = invoice_items.TrackId
-                        join albums on tracks.albumid = albums.albumid
-                        WHERE  tracks.albumid = 4 ;
+                          ==>> 5.94|1864435
 
-                        0.99|331180
-                        0.99|215196
-                        0.99|325041
-                        0.99|369319
-                        0.99|369319
-                        0.99|254380
+              SELECT  sum(tracks.UnitPrice), sum(tracks.milliseconds)   FROM tracks
+                            join albums on tracks.albumid = albums.albumid
+                            WHERE albums.title ='Let There Be Rock';
+                          ==>>  7.92|2453259
+
 
 
     Quel est le côut de l'intégralité de la discographie de "Deep Purple" ?
 
 
+              SELECT  sum(tracks.UnitPrice)   FROM tracks
+                               join albums on tracks.albumid = albums.albumid
+                               join artists on artists.artistid = albums.artistid
+                               WHERE artists.name = 'Deep Purple';
+                               ===> 91.0799999999999
 
 
 
