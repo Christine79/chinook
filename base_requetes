@@ -1,11 +1,103 @@
 
-    Récupère tout les albums ===> select  * from albums;  347
-    Récupère tout les albums dont le titre contient "Great" (indice) ==> select count(*) from albums where title like '%Great%';
-    Donne moi le nombre total d'albums contenus dans la base (sans regarder les id bien sûr); select count(*) from albums; 347
-    Supprime tout les albums dont le nom contient "music" ==> delete from albums  where title like '%music%';
+    Récupère tout les albums
+          ===> select  * from albums;  347
+
+    Récupère tout les albums dont le titre contient "Great" (indice)
+        ==> select count(*) from albums where title like '%Great%'; 13
+
+    Donne moi le nombre total d'albums contenus dans la base (sans regarder les id bien sûr);
+          select count(*) from albums; 347
+
+    Supprime tout les albums dont le nom contient "music"
+          ==> delete from albums  where title like '%music%';
+
     Récupère tout les albums écrit par AC/DC
+        ==> select * from albums where ArtistId = 1;
+
+        ==> SELECT * FROM albums
+              JOIN artists ON albums.artistid = artists.artistid
+              WHERE artists.name = 'AC/DC'; ===>>
+
+              1|For Those About To Rock We Salute You|1|1|AC/DC
+              4|Let There Be Rock|1|1|AC/DC
+
     Récupère tout les titres des albums de AC/DC
-    Récupère la liste des titre de l'album "Let There Be Rock"
+
+        ici, noms des albums:
+
+          SELECT title  FROM albums
+                JOIN artists ON albums.artistid = artists.artistid
+                WHERE artists.name = 'AC/DC';
+
+                For Those About To Rock We Salute You
+                Let There Be Rock
+
+
+        là, tous les titres de ces albums:
+
+
+                        SELECT distinct tracks.name  FROM tracks, albums
+                               JOIN artists ON albums.artistid = artists.artistid
+                             WHERE artists.name = 'AC/DC';
+
+
+                                                     SELECT distinct tracks.name  FROM tracks, albums
+                                                            JOIN albums ON albums.albumid = tracks.albumid
+                                                          WHERE artists.artistid = '1';
+
+
+
+                        SELECT tracks.name  FROM tracks
+                              JOIN artists ON albums.artistid = artists.artistid
+                              WHERE artists.name = 'AC/DC';
+
+
+
+
+    Récupère la liste des titre de l'album "Let There Be Rock" ==>
+
+          SELECT name FROM tracks
+              JOIN albums ON albums.albumid = tracks.albumid
+              WHERE albums.title ='Let There Be Rock';
+
+
+
+              Go Down
+              Dog Eat Dog
+              Let There Be Rock
+              Bad Boy Boogie
+              Problem Child
+              Overdose
+              Hell Ain't A Bad Place To Be
+              Whole Lotta Rosie
+
+
+
+
     Quel est le prix de cet album ainsi que sa durée totale ?
+
+        SELECT unitprice, milliseconds   FROM invoice_items
+                JOIN invoice_items  ON invoice_items.trackid = tracks.trackid,
+                JOIN albums  ON albums.albumid = tracks.albumid
+                WHERE albums.title ='Let There Be Rock';
+
+                SELECT  tracks.UnitPrice, tracks.milliseconds   FROM tracks
+                        JOIN invoice_items  ON tracks.trackid = invoice_items.TrackId
+                        join albums on tracks.albumid = albums.albumid
+                        WHERE  tracks.albumid = 4 ;
+
+                        0.99|331180
+                        0.99|215196
+                        0.99|325041
+                        0.99|369319
+                        0.99|369319
+                        0.99|254380
+
+
     Quel est le côut de l'intégralité de la discographie de "Deep Purple" ?
+
+
+
+
+
     Créé l'album de ton artiste favori en base, en renseignant correctement les trois tables albums, artists et tracks
