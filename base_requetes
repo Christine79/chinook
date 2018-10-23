@@ -141,3 +141,58 @@
 
 
     Créé l'album de ton artiste favori en base, en renseignant correctement les trois tables albums, artists et tracks
+
+
+    CREATE TABLE IF NOT EXISTS "artists"
+    (
+        [ArtistId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        [Name] NVARCHAR(120)
+    );
+    INSERT INTO artists (artistid, name ) VALUES (not null ,'Adèle');
+
+
+
+    CREATE TABLE IF NOT EXISTS "albums"
+    (
+        [AlbumId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        [Title] NVARCHAR(160)  NOT NULL,
+        [ArtistId] INTEGER  NOT NULL,
+        FOREIGN KEY ([ArtistId]) REFERENCES "artists" ([ArtistId])
+    		ON DELETE NO ACTION ON UPDATE NO ACTION
+    );
+
+    INSERT INTO albums (albumid , title, artistid ) VALUES (not null ,'skyfall', 276);
+
+
+
+
+    CREATE TABLE IF NOT EXISTS "tracks"
+    (
+        [TrackId] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        [Name] NVARCHAR(200)  NOT NULL,
+        [AlbumId] INTEGER,
+        [MediaTypeId] INTEGER  NOT NULL,
+        [GenreId] INTEGER,
+        [Composer] NVARCHAR(220),
+        [Milliseconds] INTEGER  NOT NULL,
+        [Bytes] INTEGER,
+        [UnitPrice] NUMERIC(10,2)  NOT NULL,
+        FOREIGN KEY ([AlbumId]) REFERENCES "albums" ([AlbumId])
+    		ON DELETE NO ACTION ON UPDATE NO ACTION,
+        FOREIGN KEY ([GenreId]) REFERENCES "genres" ([GenreId])
+    		ON DELETE NO ACTION ON UPDATE NO ACTION,
+        FOREIGN KEY ([MediaTypeId]) REFERENCES "media_types" ([MediaTypeId])
+    		ON DELETE NO ACTION ON UPDATE NO ACTION
+    );
+    CREATE INDEX [IFK_TrackAlbumId] ON "tracks" ([AlbumId]);
+    CREATE INDEX [IFK_TrackGenreId] ON "tracks" ([GenreId]);
+    CREATE INDEX [IFK_TrackMediaTypeId] ON "tracks" ([MediaTypeId]);
+
+
+insert into tracks (TrackId,Name, AlbumId,MediaTypeId, GenreId, Composer,
+Milliseconds, Bytes, UnitPrice , MediaTypeId) values (not null, 'skyfall titre1' , 348 , 2, not null, 'adèle', 54545, 76, 15, not null )
+;
+
+SELECT  *   FROM tracks
+              join albums on tracks.albumid = albums.albumid
+              WHERE albums.title ='skyfall';
