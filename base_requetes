@@ -1,5 +1,5 @@
 
-    Récupère tout les albums ===> select  * from albums;   347
+    Récupère tout les albums ===> select  * from albums;  347
     Récupère tout les albums dont le titre contient "Great" (indice) ==> select count(*) from albums where title like '%Great%';
     Donne moi le nombre total d'albums contenus dans la base (sans regarder les id bien sûr); select count(*) from albums; 347
     Supprime tout les albums dont le nom contient "music" ==> delete from albums  where title like '%music%';
